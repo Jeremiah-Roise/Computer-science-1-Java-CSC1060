@@ -1,0 +1,62 @@
+import java.awt.Transparency;
+import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
+import java.awt.image.ComponentColorModel;
+import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferByte;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
+import java.awt.image.WritableRenderedImage;
+import java.io.*;
+import java.util.Arrays;
+
+import javax.imageio.ImageIO;
+import javax.swing.colorchooser.ColorSelectionModel;
+
+class pixel {
+    public byte R = 0;
+    public byte G = 0;
+    public byte B = 0;
+    
+    public pixel(byte r, Byte g, byte b){
+        R = r;
+        G = g;
+        B = b;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println(args[0]);
+
+
+
+
+
+
+        try {
+           BufferedImage reader = ImageIO.read(new FileInputStream("test.bmp"));
+           byte[] RGBVals = ((DataBufferByte) reader.getRaster().getDataBuffer()).getData();
+
+           System.out.println(RGBVals.length);
+
+           for (int i = RGBVals.length-1; i > 0; i-=3) {
+               //if (args[0] == "invert") {
+               //    RGBVals[i] += 128;
+               //    RGBVals[i-1] += 128;
+               //    RGBVals[i-2] += 128;
+               //}
+               //if (args[0] == "redshift" && RGBVals[i] > (256 - 128)) {
+                   RGBVals[i] += 128;
+               //}
+           }
+           
+           
+           ImageIO.write(reader, "bmp", new File("testout.bmp"));
+            
+        } catch (IOException ex) {
+            System.exit(1);
+        }
+    }
+}
